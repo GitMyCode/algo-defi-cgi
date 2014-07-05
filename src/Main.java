@@ -6,10 +6,15 @@ import java.util.*;
  * Created by MB on 7/1/14.
  */
 
+/*
+1) compter les valeur des 2 group TP et client
+    - si === alors match
+
+ */
 
 public class Main{
 
-
+    private static Map<String,List<Match>> mapMatch = new HashMap<String, List<Match>>();
 
     public static void main(String[]args){
 
@@ -40,12 +45,58 @@ public class Main{
 
     }
 
+    /*
+    * The root methode to find the relations between the numbers. It is called one time for each group
+    * */
+    private void find_relations(String group, List<TradeNode> listClient, List<TradeNode> listTP){
+
+        Match match = null;
+        do{
+            match = find_match(listClient,listTP);
+            if(match == null){
+                break;
+            }
+
+            // We remove the numbers that matched from the list
+            listClient.removeAll(match.getClientTrades());
+            listTP.removeAll(match.getTpTrades());
+
+            // We add the number that matched to the mached list
+            List<Match> listMatched = mapMatch.get(group);
+            if(listMatched ==null){
+                listMatched = new ArrayList<Match>();
+            }
+            listMatched.add(match);
+            mapMatch.put(group, listMatched);
+
+
+            //we check if there is a empty list if yes we have terminated
+            if(listClient.size() ==0 || listTP.size() ==0){
+                break;
+            }
+
+        }while(true);
+
+    }
+
+    private static Match find_match(List<TradeNode> listClient, List<TradeNode> listTP){
+        Match match = new Match();
+
+
+
+
+
+        return null;
+
+    }
+
+
 
     /*
     * This methode receive a file path and read it. It puts the lines in a TradeNode object then insert
     * this object in a List<TradeNode>. The list is return
     * */
-    static private List<TradeNode> read_and_put_in_list( String fileToRead){
+    private static List<TradeNode> read_and_put_in_list( String fileToRead){
 
         List<TradeNode> tradeNodeList = new ArrayList<TradeNode>();
 
@@ -65,9 +116,9 @@ public class Main{
 
 
     /*
-    *
+     receive a List and separate this list in a map with the group as a key
     * */
-    static private Map<String,List<TradeNode>> map_list_with_group_key(List<TradeNode> tradeList ){
+    private static Map<String,List<TradeNode>> map_list_with_group_key(List<TradeNode> tradeList ){
         Map<String, List<TradeNode>> map = new HashMap<String, List<TradeNode>>();
 
         for(int i =0; i< tradeList.size() ; i ++){
