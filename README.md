@@ -2,5 +2,5 @@ algo-defi-cgi
 =============
 
 
-Ce code est hautement inspirer du code donnée par CGI
+Ce code est hautement inspiré du code donnée par CGI
 ---
